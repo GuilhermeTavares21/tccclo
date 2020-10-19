@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../images/logo.ico">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -13,7 +12,6 @@
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/hover.css">
-    <link rel="stylesheet" href="../css/scroll.css">
     <title>CLO</title>
 
 
@@ -82,6 +80,60 @@
             </div>
         </div>
     </div>
+    <script>
+        var form = document.querySelector('form')
+        var email = document.getElementById('inputEmail')
+        var password = document.getElementById('inputPassword')
+        var nome = document.getElementById('inputName')
+        var phone = document.getElementById('inputPhone')
+        var address = document.getElementById('inputAddress')
+        var number = document.getElementById('inputNumber')
+        var complement = document.getElementById('inputComplement')
+
+        // var usuario = document.querySelector('.usuario')
+        // var nome = document.querySelector(".nome")
+        // var telefone = document.querySelector(".telefone")
+        // var emailUser = document.querySelector(".email")
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            // console.log(password.value)
+            fetch(`http://localhost:3333/register`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: email.value,
+                    password: password.value,
+                    name: nome.value,
+                    phone: phone.value,
+                    street: address.value,
+                    numberHouse: number.value,
+                    complement: complement.value,
+                })
+            })
+            .then((resposta) => {
+                resposta.json().then((dados) => {
+                    // var { name, phone, email, password, street, numberHouse } = dados.user;
+                    // if (!name || !phone || !email || !password || !street || !numberHouse) {
+                    //     usuario.innerHTML += "<h1>Dados inválidos</h1>"
+                    // }
+                    // else {
+                        
+                        console.log(dados)
+                        // nome.innerText = "Nome: " + name;
+
+                        // console.log(password)
+                        // telefone.innerText = "Telefone: " + phone
+
+                        // console.log(name)
+                        // emailUser.innerText = "Email: " + email
+
+                        // usuario.innerHTML += "<br>"
+                    // }
+                })
+            })
+        })
+    </script>
 
 </body>
 

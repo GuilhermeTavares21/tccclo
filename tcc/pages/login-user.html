@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../images/logo.ico">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -13,7 +12,6 @@
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/hover.css">
-    <link rel="stylesheet" href="../css/scroll.css">
     <title>CLO</title>
 
 
@@ -36,6 +34,7 @@
                             <img src="../images/logo.png" class="" height="50" alt="Logo Clo">
                         </div>
                         <p class="subtitle text-center text-monospace font">Entrar como Usuário</p>
+                        <p id="error"></p>
                         <form class="form-signin">
                             <div class="form-label-group">
                                 <input type="email" id="inputEmail" class="form-control text-dark" placeholder="Email"
@@ -47,13 +46,13 @@
                                     required>
                             </div>
 
-                            <button class="btn btn-lg btn-login btn-block text-uppercase" type="submit">Fazer
+                            <button class="btn btn-lg btn-login btn-block text-uppercase" id="fazerLogin" type="submit">Fazer
                                 login</button>
                             <hr class="my-4">
-                            <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i
+                            <!-- <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i
                                     class="fab fa-google mr-2"></i> Entrar com Google</button>
                             <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i
-                                    class="fab fa-facebook-f mr-2"></i> Entrar com Facebook</button>
+                                    class="fab fa-facebook-f mr-2"></i> Entrar com Facebook</button> -->
                             <a class="criar-conta mt-3 hvr-float" href="registrar.html">Não tem uma conta? <span>Criar
                                     Conta</span></a>
 
@@ -63,7 +62,54 @@
             </div>
         </div>
     </div>
+    <script>
+        var form = document.querySelector('form')
+        var email = document.getElementById('inputEmail')
+        var password = document.getElementById('inputPassword')
+        var error = document.getElementById("error")
+        // console.log(password)
 
+        // var usuario = document.querySelector('.usuario')
+        // var nome = document.querySelector(".nome")
+        // var telefone = document.querySelector(".telefone")
+        // var emailUser = document.querySelector(".email")
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            // console.log(password.value)
+            fetch(`http://localhost:3333/login`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: email.value,
+                    password: password.value
+                })
+            })
+            .then((resposta) => {
+                resposta.json().then((dados) => {
+                    if(!dados.user){                      
+                        return error.textContent = dados
+                    }
+                    var { name, phone, email, password, street, numberHouse } = dados.user;
+                    // if (!name || !phone || !email || !password || !street || !numberHouse) {
+                    //     usuario.innerHTML += "<h1>Dados inválidos</h1>"
+                    // }
+                    // else {
+                        console.log(dados)
+                        // nome.innerText = "Nome: " + name;
+
+                        // console.log(password)
+                        // telefone.innerText = "Telefone: " + phone
+
+                        // console.log(name)
+                        // emailUser.innerText = "Email: " + email
+
+                        // usuario.innerHTML += "<br>"
+                    // }
+                })
+            })
+        })
+    </script>
 </body>
 
 </html>

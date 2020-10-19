@@ -138,7 +138,7 @@ module.exports = {
     async loadAdm(req,res){
         try {
             const admId = req.userId
-            
+            console.log('a')
             const adm = await Adm.findById(admId)
             return res.status(200).json(adm)
         } catch (error) {

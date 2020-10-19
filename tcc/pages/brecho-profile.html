@@ -54,7 +54,7 @@
 								<i class="icon fas fa-map-marker-alt"></i>
 								<div class="right-area">
 									<h5>Endereço:</h5>
-									<h6>Arciprestes Ezequias, 367</h6>
+									<h6><span id="rua"></span>, <span id="numero"></span></h6>
 								</div>
 							</div>
 						</div>
@@ -64,7 +64,7 @@
 								<i class="icon fas fa-phone-alt"></i>
 								<div class="right-area">
 									<h5>Telefone:</h5>
-									<h6>11 912345678</h6>
+									<h6 id="telephone"></h6>
 								</div>
 							</div>
 						</div>
@@ -74,7 +74,7 @@
 								<i class="icon fas fa-envelope"></i>
 								<div class="right-area">
 									<h5>Email:</h5>
-									<h6>carlosbrecho@gmail.com</h6>
+									<h6 id="email"></h6>
 								</div>
 							</div>
 						</div>
@@ -93,7 +93,7 @@
 				<div class="col-md-10 col-lg-8">
 					<div class="intro">
 						<div class="profile-img"><img src="../images/rounded.png" alt=""></div>
-						<h2><b>Brechó do Carlos</b></h2>
+						<h2 id="nome"><b></b></h2>
 						<div class="star-rating2">
 							<ul class="list-inline">
 								<li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -109,11 +109,11 @@
 								consequuntur quisquam aperiam porro voluptas excepturi adipisci. Error reprehenderit
 								quam porro quo.</li>
 						</ul>
-						<ul class="social-icons">
+						<!-- <ul class="social-icons">
 							<li><a href="#"><i class="fab fa-facebook"></i></a></li>
 							<li><a href="#"><i class="fab fa-instagram"></i></a></li>
 							<li><a href="#"><i class="fab fa-twitter"></i></a></li>
-						</ul>
+						</ul> -->
 					</div>
 				</div>
 			</div>
@@ -413,6 +413,48 @@
 		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
 		crossorigin="anonymous"></script>
 
+	<script>
+		var form = document.querySelector('form')
+		var password = document.getElementById('inputPassword')
+		var error = document.getElementById("error")
+
+		var nome = document.getElementById("nome")
+		var telephone = document.getElementById("telephone")
+		var txtEmail = document.getElementById('email')
+		var rua = document.getElementById('rua')
+		var numero = document.getElementById('numero')
+		var complemento = document.getElementById('complemento')
+		// console.log(password)
+
+		// var usuario = document.querySelector('.usuario')
+		// var nome = document.querySelector(".nome")
+		// var telefone = document.querySelector(".telefone")
+		// var emailUser = document.querySelector(".email")
+
+		// console.log(password.value)
+		document.addEventListener("DOMContentLoaded", function() {
+
+			fetch(`http://localhost:3333/loadAdm`, {
+				method: "get",
+				headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') }
+			})
+				.then((resposta) => {
+					resposta.json().then((dados) => {
+						if (dados.message) {
+							return window.location = '404.html'
+						}
+						console.log(dados)
+						var { name, phone, email, password, street, numberHouse, complement } = dados;
+						nome.textContent = name
+						telephone.textContent = phone
+						txtEmail.textContent = email
+						rua.textContent = street
+						numero.textContent = numberHouse
+						complemento.textContent = complement
+					})
+				})
+		})
+	</script>
 </body>
 
 </html>

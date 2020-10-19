@@ -36,7 +36,7 @@
                         <p class="subtitle text-center text-monospace font">Entrar como Brechó</p>
                         <p id="error"></p>
                         <form class="form-signin">
-                           
+
                             <div class="form-label-group">
                                 <input type="email" id="inputEmail" class="form-control text-dark" placeholder="Email"
                                     required autofocus>
@@ -47,9 +47,10 @@
                                     required>
                             </div>
 
-                            <button class="btn btn-lg btn-login btn-block text-uppercase" type="submit">Fazer
-                                login</button>
-                            
+                            <button class="btn btn-lg btn-login btn-block text-uppercase" type="submit"><a
+                                    href="brecho-profile.html">Fazer
+                                    login</a></button>
+
                             <a class="criar-conta mt-3 hvr-float" href="registrar.html">Não tem uma conta? <span>Criar
                                     Conta</span></a>
 
@@ -82,20 +83,17 @@
                     password: password.value
                 })
             })
-            .then((resposta) => {
-                resposta.json().then((dados) => {
-                    if(!dados.adm){                      
-                        return error.textContent = dados
-                    }
-                    var { name, phone, email, password, street, numberHouse } = dados.adm;
-                    // if (!name || !phone || !email || !password || !street || !numberHouse) {
-                    //     usuario.innerHTML += "<h1>Dados inválidos</h1>"
-                    // }
-                    // else {
+                .then((resposta) => {
+                    resposta.json().then((dados) => {
+                        if (!dados.adm) {
+                            return error.textContent = dados
+                        }
+                        var { name, phone, email, password, street, numberHouse } = dados.adm;
                         console.log(dados)
                         localStorage.setItem("token", dados.token)
+                        window.location = 'brecho-profile.html'
+                    })
                 })
-            })
         })
     </script>
 

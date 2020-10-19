@@ -6,16 +6,16 @@ module.exports = {
     async register(req, res) {
         try {
             const { name, phone, email, password, street, numberHouse } = req.body;
-            if (!name || !phone || !email || !password || !street || !numberHouse){
+            if (!name || !phone || !email || !password || !street || !numberHouse) {
                 return res.status(400).json('Campo em branco')
             }
-            if(phone.length > 15 || phone.length <=7){
+            if (phone.length > 15 || phone.length <= 7) {
                 return res.status(400).json('Telefone inválido')
             }
             // console.log(phone.length)
 
-            if(await User.findOne({ email })){
-               return res.status(400).json('Este e-mail já está sendo usado')
+            if (await User.findOne({ email })) {
+                return res.status(400).json('Este e-mail já está sendo usado')
             }
             req.body.password = await bcrypt.hash(password, 12)
             const user = await User.create(req.body);
@@ -26,55 +26,63 @@ module.exports = {
             return res.status(500).json('Falha no registro');
         }
     },
-    async updateUser(req, res){
+    async updateUser(req, res) {
         try {
             const { name, phone, email, password, street, numberHouse, imageLocation } = req.body;
-            if (!name || !phone || !email || !password || !street || !numberHouse){
-                return res.status(400).json('Campo inválido')
+
+            let alter = {}
+
+            if (req.file) {
+                const { originalname, size: sizeImg, key, location } = req.file
+                const image = {
+                    originalName: originalname,
+                    size: sizeImg,
+                    key,
+                    location
+                }
+                alter.image = image
             }
-            if(phone.length > 15 || phone.length <=7){
-                return res.status(400).json('Telefone inválido')
-            }           
-            req.body.password = await bcrypt.hash(password, 12)
-            
-            console.log(req.file)
-            if(!req.file){
-                return res.status(400).json('Imagem não cadastrada')
+
+            if (phone) {
+                if (phone.length > 15 || phone.length <= 7) {
+                    return res.status(400).json('Telefone inválido')
+                }
+                alter.phone = req.body.phone
+            }
+            if (password) {
+                alter.password = await bcrypt.hash(password, 12)
+            }
+            if (name) {
+                alter.name = req.body.name
+                console.log(req.body.name)
                 
             }
-
-            const { originalname, size : sizeImg, key, location } = req.file
-            const image = {
-                originalName: originalname,
-                size: sizeImg,
-                key,
-                location
+            console.log(name)
+            if (email) {
+                alter.email = req.body.email
             }
-
-            const alter = {
-                name: name.toLowerCase(), 
-                phone,
-                email, 
-                password: req.body.password,
-                street, 
-                numberHouse
+            if (street) {
+                alter.street = req.body.street
             }
-            if( imageLocation == "perfil"){
-                alter.image = image                
+            if (numberHouse) {
+                alter.numberHouse = req.body.numberHouse
             }
-            if( imageLocation == "banner"){
+            if (imageLocation == "perfil") {
+                alter.image = image
+            }
+            if (imageLocation == "banner") {
                 alter.imageBanner = image
             }
-
-            const user = await User.findByIdAndUpdate(req.userId, alter, { new: true });
+            console.log(alter)
+            const user = await User.findByIdAndUpdate(req.userId, {$set:alter} , { upsert: true });
             // console.log(phone)
             return res.status(200).json(user);
-            
+
         } catch (error) {
             return res.status(500).json('Falha ao atualizar');
         }
     },
-    async ListUsers(req, res){ 
+    async ListUsers(req, res) {
         try {
             const users = await User.find()
             return res.status(200).send({ users })
@@ -83,24 +91,24 @@ module.exports = {
             return res.status(500).json('Falha ao listar');
         }
     },
-    async DeleteUser(req,res){
+    async DeleteUser(req, res) {
         try {
             const id = req.userId;
-            await User.findByIdAndDelete( id ) 
+            await User.findByIdAndDelete(id)
             return res.status(200).json('Deletado com sucesso')
         } catch (error) {
             console.log(error)
             return res.status(500).json('Falha ao deletar');
         }
     },
-    async addBag(req,res){
+    async addBag(req, res) {
         try {
             const id = req.body.id;
             const userId = req.userId
 
             const user = await User.findById(userId)
             user.sacola.push(id)
-            await user.save()    
+            await user.save()
             const userAdd = await User.findById(userId).populate("sacola")
 
             return res.status(200).json(userAdd)
@@ -109,7 +117,7 @@ module.exports = {
             return res.status(500).json('Falha ao adicionar a sacola');
         }
     },
-    async deleteBag(req, res){
+    async deleteBag(req, res) {
         try {
             const userId = req.userId
             const user = await User.findById(userId)
@@ -135,7 +143,7 @@ module.exports = {
             return res.status(500).json('Falha ao listar a sacola');
         }
     },
-    async loadUser(req,res){
+    async loadUser(req, res) {
         try {
             const userId = req.userId
             console.log(userId)

@@ -38,45 +38,38 @@
                         <p class="subtitle text-center text-monospace font">Editar Perfil Pessoal</p>
                         <form class="form-signin">
                             <div class="form-label-group">
-                                <input type="text" id="nome" class="form-control text-dark"
-                                    placeholder="Nome Completo" required autofocus>
+                                <input type="text" id="nome" class="form-control text-dark" placeholder="Nome Completo"
+                                    required autofocus>
                             </div>
-                        
-                            <!-- <div class="form-label-group">
-                                <input type="text" id="inputEmail" class="form-control text-dark"
+
+                             <div class="form-label-group">
+                                <input type="text" id="endereco" class="form-control text-dark"
                                     placeholder="Endereço" required autofocus>
                             </div>
 
-                            <div class="form-label-group">
-                                <input type="text" id="inputEmail" class="form-control text-dark" placeholder="Complemento"
+                           <div class="form-label-group">
+                                <input type="text" id="complemento" class="form-control text-dark" placeholder="Complemento"
+                                    required autofocus>
+                            </div>
+                            
+                           <div class="form-label-group">
+                                <input type="text" id="email" class="form-control text-dark" placeholder="Email"
                                     required autofocus>
                             </div>
 
-                            <div class="form-label-group">
-                                <input type="text" id="inputEmail" class="form-control text-dark" placeholder="Email"
-                                    required autofocus>
-                            </div>
-
-                            <div class="form-label-group">
-                                <input type="text" id="inputEmail" class="form-control text-dark" placeholder="Telefone"
+                             <div class="form-label-group">
+                                <input type="text" id="tel" class="form-control text-dark" placeholder="Telefone"
                                     required autofocus>
                             </div>
 
                             <hr class="my-4">
 
-                            <div class="form-label-group">
+                           <!-- <div class="form-label-group">
                                 <input type="file" id="inputPhoto" class="form-control inputphoto text-dark" required autofocus>
                                 <label for="inputPhoto" class="form-control text-center">Adicionar Foto de Perfil</label>
-                            </div> -->
-
-
-
-
-
+                            </div>    
+                            --> 
                             <button class="btn btn-lg btn-login btn-block text-uppercase" type="submit">Salvar</button>
-
-
-
                         </form>
                     </div>
                 </div>
@@ -85,63 +78,67 @@
     </div>
 
     <script>
-        var form = document.querySelector('form')
-        var email1 = document.getElementById('email')
-        
-        
-        var nome = document.getElementById("nome")
+
         // console.log(password)
 
         // var usuario = document.querySelector('.usuario')
         // var nome = document.querySelector(".nome")
         // var telefone = document.querySelector(".telefone")
         // var emailUser = document.querySelector(".email")	
-            // console.log(password.value)
-            document.addEventListener("DOMContentLoaded",function(){
-
-            
-            fetch(`http://localhost:3333/loadUser`,{
-                method: "GET",
-                headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') }
-            })
-            .then((resposta) => {
-                resposta.json().then((dados) => {
-                    if(dados.message){
-                        return window.location='404.html'
-                    }
-                    var { name, phone, email, password, street, numberHouse, complement } = dados;
-                    nome.textContent = name
-                    
-                })
-            })
-        })
-
-        form.addEventListener('submit', (e) => {
+        // console.log(password.value)
+        var form = document.querySelector('form')
+        form.addEventListener('submit', function(e) {
             e.preventDefault()
+            console.log('a')
+            var nome = document.getElementById("nome").value
+            var endereco = document.getElementById("endereco").value
+            var emailp = document.getElementById("email").value
+            var tel = document.getElementById("tel").value
+
 
             // console.log(password.value)
             fetch(`http://localhost:3333/updateUser`, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
                 body: JSON.stringify({
-                    name: nome.value,
+                    name: nome,
+                    street:endereco,
+                    email:emailp,
+                    phone:tel
                 })
             })
             .then((resposta) => {
                 resposta.json().then((dados) => {
-                    if(!dados.user){                      
-                        return error.textContent = dados
-                    }
-                    var { name, phone, email, password, street, numberHouse } = dados.user;          
-                        console.log(dados)
-                        localStorage.setItem("token",dados.token)
+                   // if(!dados.user){                      
+                        //return error.textContent = dados
+                    //}
+                    //var { name, phone, email, password, street, numberHouse } = dados.user;          
+                        //console.log(dados)
+                        //localStorage.setItem("token",dados.token)
                         window.location='user-profile.html'
                 })
             })
         })
-        
 
-        
+
+        document.addEventListener("DOMContentLoaded", function () {
+            
+
+            fetch(`http://localhost:3333/loadUser`, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') }
+            })
+                .then((resposta) => {
+                    resposta.json().then((dados) => {
+                        if (dados.message) {
+                            return window.location = '404.html'
+                        }
+                        var { name, phone, email, password, street, numberHouse, complement } = dados;
+                        nome.textContent = name
+
+                    })
+                })
+        })
 
     </script>
 </body>

@@ -325,3 +325,18 @@ body { overflow-x: hidden; }
 	transition: 0.2s ease-in-out;
 }
 
+.fleft{
+	float: left;
+}
+
+.thumb-content a{
+	text-decoration: none;
+	color: rgb(0, 0, 0);
+	transition: 0.2s;
+}
+
+.thumb-content a:hover{
+	text-decoration: none;
+	transition: 0.2s;
+	color: rgb(55, 85, 219);
+}

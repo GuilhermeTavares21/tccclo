@@ -90,22 +90,10 @@
                     if(!dados.user){                      
                         return error.textContent = dados
                     }
-                    var { name, phone, email, password, street, numberHouse } = dados.user;
-                    // if (!name || !phone || !email || !password || !street || !numberHouse) {
-                    //     usuario.innerHTML += "<h1>Dados inválidos</h1>"
-                    // }
-                    // else {
+                    var { name, phone, email, password, street, numberHouse } = dados.user;          
                         console.log(dados)
-                        // nome.innerText = "Nome: " + name;
-
-                        // console.log(password)
-                        // telefone.innerText = "Telefone: " + phone
-
-                        // console.log(name)
-                        // emailUser.innerText = "Email: " + email
-
-                        // usuario.innerHTML += "<br>"
-                    // }
+                        localStorage.setItem("token",dados.token)
+                        window.location='user-profile.html'
                 })
             })
         })

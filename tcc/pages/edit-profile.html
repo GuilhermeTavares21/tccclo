@@ -38,22 +38,17 @@
                         <p class="subtitle text-center text-monospace font">Editar Perfil Pessoal</p>
                         <form class="form-signin">
                             <div class="form-label-group">
-                                <input type="text" id="inputEmail" class="form-control text-dark"
+                                <input type="text" id="nome" class="form-control text-dark"
                                     placeholder="Nome Completo" required autofocus>
                             </div>
                         
-                            <div class="form-label-group">
+                            <!-- <div class="form-label-group">
                                 <input type="text" id="inputEmail" class="form-control text-dark"
                                     placeholder="Endereço" required autofocus>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="text" id="inputEmail" class="form-control text-dark" placeholder="Complemento"
-                                    required autofocus>
-                            </div>
-
-                            <div class="form-label-group">
-                                <input type="text" id="inputEmail" class="form-control text-dark" placeholder="CEP"
                                     required autofocus>
                             </div>
 
@@ -67,17 +62,12 @@
                                     required autofocus>
                             </div>
 
-                            <div class="form-label-group">
-                                <input type="text" id="inputEmail" class="form-control text-dark"
-                                    placeholder="CPF" required autofocus>
-                            </div>
-
                             <hr class="my-4">
 
                             <div class="form-label-group">
                                 <input type="file" id="inputPhoto" class="form-control inputphoto text-dark" required autofocus>
                                 <label for="inputPhoto" class="form-control text-center">Adicionar Foto de Perfil</label>
-                            </div>
+                            </div> -->
 
 
 
@@ -94,6 +84,65 @@
         </div>
     </div>
 
+    <script>
+        var email1 = document.getElementById('email')
+        
+        
+        var nome = document.getElementById("nome")
+        // console.log(password)
+
+        // var usuario = document.querySelector('.usuario')
+        // var nome = document.querySelector(".nome")
+        // var telefone = document.querySelector(".telefone")
+        // var emailUser = document.querySelector(".email")	
+            // console.log(password.value)
+            document.addEventListener("DOMContentLoaded",function(){
+
+            
+            fetch(`http://localhost:3333/loadUser`,{
+                method: "GET",
+                headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') }
+            })
+            .then((resposta) => {
+                resposta.json().then((dados) => {
+                    if(dados.message){
+                        return window.location='404.html'
+                    }
+                    var { name, phone, email, password, street, numberHouse, complement } = dados;
+                    nome.textContent = name
+                   
+                })
+            })
+        })
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            // console.log(password.value)
+            fetch(`http://localhost:3333/updateUser`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: nome.value,
+                })
+            })
+            .then((resposta) => {
+                resposta.json().then((dados) => {
+                    if(!dados.user){                      
+                        return error.textContent = dados
+                    }
+                    var { name, phone, email, password, street, numberHouse } = dados.user;          
+                        console.log(dados)
+                        localStorage.setItem("token",dados.token)
+                        window.location='user-profile.html'
+                })
+            })
+        })
+        
+
+        
+
+    </script>
 </body>
 
 </html>

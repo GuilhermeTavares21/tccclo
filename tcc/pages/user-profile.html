@@ -52,15 +52,13 @@
 				<div class="col-md-10 col-lg-8">
 					<div class="intro">
 						<div class="profile-img"><img src="../images/user-example.jpg" alt=""></div>
-						<h2><b>Pedro Paulo Faria Pires</b></h2>
+						<h2 id="nome"><b></b></h2>
 						
 						<ul class="information margin-tb-30">
-							<li class="text-justify"><b>Endereço : </b>Av. Paulista, 777</li>
-							<li class="text-justify"><b>Complemento : </b>Apartamento 69</li>
-							<li class="text-justify"><b>CEP : </b>02520-098</li>
-							<li class="text-justify"><b>Email : </b>emailexample@gmail.com</li>
-							<li class="text-justify"><b>Telefone : </b>11 912345678</li>
-							<li class="text-justify"><b>CPF : </b>3558765976-92</li>
+							<li class="text-justify" ><b>Endereço: </b><span id="endereco"></span>, <span id="numero"></span></li>
+							<li class="text-justify" ><b>Complemento : </b><span id="complemento"></span></li>
+							<li class="text-justify" ><b>Email : </b><span id="email"></span></li>
+							<li class="text-justify" ><b>Telefone : </b><span id="tel"></span></li>
 							
 						</ul>
 						
@@ -143,7 +141,7 @@
 
 		<!-- Copyright -->
 		<div class="footer-copyright text-center py-3 mt-3">© 2020 Copyright:
-			<a href="https://mdbootstrap.com/">clo.com.br</a>
+			<a href="">clo.com.br</a>
 		</div>
 		<!-- Copyright -->
 
@@ -162,6 +160,42 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
 		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
 		crossorigin="anonymous"></script>
+
+		<script>
+			var email1 = document.getElementById('email')
+			
+			
+			var nome = document.getElementById("nome")
+			// console.log(password)
+	
+			// var usuario = document.querySelector('.usuario')
+			// var nome = document.querySelector(".nome")
+			// var telefone = document.querySelector(".telefone")
+			// var emailUser = document.querySelector(".email")	
+				// console.log(password.value)
+				document.addEventListener("DOMContentLoaded",function(){
+
+				
+				fetch(`http://localhost:3333/loadUser`, {
+					method: "GET",
+					headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') }
+				})
+				.then((resposta) => {
+					resposta.json().then((dados) => {
+						if(dados.message){
+							return window.location='404.html'
+						}
+						var { name, phone, email, password, street, numberHouse, complement } = dados;
+						nome.textContent = name
+						endereco.textContent = street
+						numero.textContent = numberHouse
+						email1.textContent = email
+						complemento.textContent = complement
+						tel.textContent = phone
+					})
+				})
+			})
+		</script>
 
 </body>
 

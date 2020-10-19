@@ -134,5 +134,16 @@ module.exports = {
         } catch (error) {
             return res.status(500).json('Falha ao avaliar');
         }
+    },
+    async loadAdm(req,res){
+        try {
+            const admId = req.userId
+            
+            const adm = await Adm.findById(admId)
+            return res.status(200).json(adm)
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json('Falha ao carregar adm');
+        }
     }
 }

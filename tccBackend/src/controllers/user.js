@@ -134,5 +134,16 @@ module.exports = {
             console.log(error)
             return res.status(500).json('Falha ao listar a sacola');
         }
+    },
+    async loadUser(req,res){
+        try {
+            const userId = req.userId
+            console.log(userId)
+            const user = await User.findById(userId)
+            return res.status(200).json(user)
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json('Falha ao carregar user');
+        }
     }
 }

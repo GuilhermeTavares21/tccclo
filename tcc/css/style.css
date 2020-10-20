@@ -140,7 +140,7 @@ body { overflow-x: hidden; }
 	padding: 15px;
 }
 .carousel-control-prev, .carousel-control-next {
-	height: 100px;
+	height: 50px;
 	width: 40px;
 	background: none;
 	margin-top: auto;

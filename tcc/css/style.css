@@ -347,3 +347,20 @@ body { overflow-x: hidden; }
 	margin: 0 !important;
 }
 
+@media (max-width: 580px){
+	.navsearchbar{
+		margin-right: 10px;
+		width: 250px !important;
+	}
+}
+
+@media (max-width: 357px){
+	.navsearchbar{
+		margin-right: 10px;
+		width: 200px !important;
+	}
+}
+
+.navsearchbar:focus{
+	
+}

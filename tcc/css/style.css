@@ -13,7 +13,7 @@ body { overflow-x: hidden; }
 }
 
 .icones-navbar{
-    font-size: 1.6em;
+    font-size: 2em;
     color: black !important;
     /* border-bottom: solid 1px black;  */
 }
@@ -145,6 +145,8 @@ body { overflow-x: hidden; }
 	background: none;
 	margin-top: auto;
 	margin-bottom: auto;
+	position: absolute;
+	z-index: -1;
 	
 
 }
@@ -340,3 +342,8 @@ body { overflow-x: hidden; }
 	transition: 0.2s;
 	color: rgb(55, 85, 219);
 }
+
+.nomargin{
+	margin: 0 !important;
+}
+

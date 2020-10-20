@@ -28,9 +28,9 @@ module.exports = {
     },
     async updateUser(req, res) {
         try {
-            const { name, phone, email, password, street, numberHouse, imageLocation } = req.body;
+            const { name, phone, email, password, street, complement, numberHouse, imageLocation } = req.body;
 
-            let alter = {}
+            var alter = {}
 
             if (req.file) {
                 const { originalname, size: sizeImg, key, location } = req.file
@@ -40,7 +40,12 @@ module.exports = {
                     key,
                     location
                 }
-                alter.image = image
+                if (imageLocation == "perfil") {
+                    alter.image = image
+                }
+                if (imageLocation == "banner") {
+                    alter.imageBanner = image
+                }
             }
 
             if (phone) {
@@ -54,25 +59,22 @@ module.exports = {
             }
             if (name) {
                 alter.name = req.body.name
-                console.log(req.body.name)
+                // console.log(req.body.name)
                 
             }
-            console.log(name)
             if (email) {
                 alter.email = req.body.email
             }
             if (street) {
                 alter.street = req.body.street
             }
+            if(complement){
+                    alter.complement = req.body.complement
+            }
             if (numberHouse) {
                 alter.numberHouse = req.body.numberHouse
             }
-            if (imageLocation == "perfil") {
-                alter.image = image
-            }
-            if (imageLocation == "banner") {
-                alter.imageBanner = image
-            }
+            
             console.log(alter)
             const user = await User.findByIdAndUpdate(req.userId, {$set:alter} , { upsert: true });
             // console.log(phone)

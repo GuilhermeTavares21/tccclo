@@ -171,7 +171,7 @@
 				<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
 					<div class="thumb-wrapper">
 						<div class="img-box">
-							<img src="../images/camisa1.jpg" class="img-fluid" alt="">
+							<img id="imagePeril" src="../images/camisa1.jpg" class="img-fluid" alt="">
 						</div>
 						<div class="thumb-content">
 							<h4>Camiseta Florida</h4>
@@ -414,8 +414,7 @@
 		crossorigin="anonymous"></script>
 
 	<script>
-		var form = document.querySelector('form')
-		var password = document.getElementById('inputPassword')
+		var form = document.querySelector('form')		
 		var error = document.getElementById("error")
 
 		var nome = document.getElementById("nome")
@@ -424,14 +423,8 @@
 		var rua = document.getElementById('rua')
 		var numero = document.getElementById('numero')
 		var complemento = document.getElementById('complemento')
-		// console.log(password)
+		var imagePeril = document.getElementById('imagePeril')
 
-		// var usuario = document.querySelector('.usuario')
-		// var nome = document.querySelector(".nome")
-		// var telefone = document.querySelector(".telefone")
-		// var emailUser = document.querySelector(".email")
-
-		// console.log(password.value)
 		document.addEventListener("DOMContentLoaded", function() {
 
 			fetch(`http://localhost:3333/loadAdm`, {
@@ -440,17 +433,23 @@
 			})
 				.then((resposta) => {
 					resposta.json().then((dados) => {
+						if(!dados){
+							return window.location='404.html'
+						}
 						if (dados.message) {
 							return window.location = '404.html'
 						}
 						console.log(dados)
-						var { name, phone, email, password, street, numberHouse, complement } = dados;
+						var { name, phone, email, password, street, numberHouse, complement, image } = dados;
 						nome.textContent = name
 						telephone.textContent = phone
 						txtEmail.textContent = email
 						rua.textContent = street
 						numero.textContent = numberHouse
-						complemento.textContent = complement
+						complemento.textContent = complement,
+						imagePeril.src = image.location
+
+						console.log(image.location)
 					})
 				})
 		})

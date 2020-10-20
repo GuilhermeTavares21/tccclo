@@ -64,11 +64,11 @@
 
                             <hr class="my-4">
 
-                           <!-- <div class="form-label-group">
+                           <div class="form-label-group">
                                 <input type="file" id="inputPhoto" class="form-control inputphoto text-dark" required autofocus>
                                 <label for="inputPhoto" class="form-control text-center">Adicionar Foto de Perfil</label>
                             </div>    
-                            --> 
+                            
                             <button class="btn btn-lg btn-login btn-block text-uppercase" type="submit">Salvar</button>
                         </form>
                     </div>
@@ -94,18 +94,26 @@
             var endereco = document.getElementById("endereco").value
             var emailp = document.getElementById("email").value
             var tel = document.getElementById("tel").value
+            var complemento = document.getElementById("complemento").value
+            var inputPhoto = document.getElementById("inputPhoto").files[0]
+            const data = new FormData()
+            data.append("file", inputPhoto)
 
-
-            // console.log(password.value)
+            console.log(inputPhoto)
             fetch(`http://localhost:3333/updateUser`, {
                 method: "PUT",
                 headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
+                
                 body: JSON.stringify({
                     name: nome,
                     street:endereco,
                     email:emailp,
-                    phone:tel
-                })
+                    phone:tel,
+                    complement: complemento,
+                    
+                }),
+                file: data
+
             })
             .then((resposta) => {
                 resposta.json().then((dados) => {
@@ -115,7 +123,7 @@
                     //var { name, phone, email, password, street, numberHouse } = dados.user;          
                         //console.log(dados)
                         //localStorage.setItem("token",dados.token)
-                        window.location='user-profile.html'
+                        // window.location='user-profile.html'
                 })
             })
         })

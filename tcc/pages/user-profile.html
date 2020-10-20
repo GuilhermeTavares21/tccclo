@@ -51,7 +51,9 @@
 				<div class="col-md-1 col-lg-2"></div>
 				<div class="col-md-10 col-lg-8">
 					<div class="intro">
-						<div class="profile-img"><img src="../images/user-example.jpg" alt=""></div>
+						<div  class="profile-img">
+							<img id="imageUser" src="" alt="">
+						</div>
 						<h2 id="nome"><b></b></h2>
 						
 						<ul class="information margin-tb-30">
@@ -164,12 +166,12 @@
 		<script>
 			var email1 = document.getElementById('email')
 			var nome = document.getElementById("nome")
-			// console.log(password)
-	
+			var tel = document.getElementById("tel")
+			var numero = document.getElementById("numero")
+			var endereco = document.getElementById("endereco")
+			var imageUser = document.getElementById("imageUser")
 			// var usuario = document.querySelector('.usuario')
 			// var nome = document.querySelector(".nome")
-			// var telefone = document.querySelector(".telefone")
-			// var emailUser = document.querySelector(".email")	
 			// console.log(password.value)
 				document.addEventListener("DOMContentLoaded",function(){
 
@@ -180,16 +182,26 @@
 				})
 				.then((resposta) => {
 					resposta.json().then((dados) => {
+						console.log(dados)
+					
+						if(!dados){
+							return window.location='404.html'
+						}
 						if(dados.message){
 							return window.location='404.html'
 						}
-						var { name, phone, email, password, street, numberHouse, complement } = dados;
+						var { name, phone, email, password, street, numberHouse, complement, image } = dados;
 						nome.textContent = name
 						endereco.textContent = street
 						numero.textContent = numberHouse
 						email1.textContent = email
 						complemento.textContent = complement
 						tel.textContent = phone
+						if(image){
+							imageUser.src = image.location
+						}
+
+
 					})
 				})
 			})

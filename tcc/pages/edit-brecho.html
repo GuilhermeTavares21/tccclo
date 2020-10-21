@@ -38,66 +38,56 @@
                         <p class="subtitle text-center text-monospace font">Editar Brechó</p>
                         <form class="form-signin">
                             <div class="form-label-group">
-                                <input type="text" id="nome" class="form-control text-dark"
-                                    placeholder="Nome do Brechó"  autofocus>
+                                <input type="text" id="inputEmail" class="form-control text-dark"
+                                    placeholder="Nome do Brechó" required autofocus>
                             </div>
                         
                             <div class="form-label-group">
-                                <input type="text" id="descricao"  class="form-control text-dark"
-                                    placeholder="Descrição"  autofocus>
-                            </div>
-                            
-                            <div class="form-label-group">
-                                <input type="text" id="endereco" class="form-control text-dark" placeholder="Endereço"
-                                     autofocus>
+                                <input type="text" id="inputEmail" class="form-control text-dark"
+                                    placeholder="Descrição" required autofocus>
                             </div>
 
                             <div class="form-label-group">
-                                <input type="text" id="numero"  class="form-control text-dark"
-                                    placeholder="Número do local"  autofocus>
+                                <input type="text" id="inputEmail" class="form-control text-dark" placeholder="Endereço"
+                                    required autofocus>
                             </div>
 
                             <div class="form-label-group">
-                                <input type="text" id="complemento"  class="form-control text-dark"
-                                    placeholder="Complemento"  autofocus>
+                                <input type="text" id="inputEmail" class="form-control text-dark" placeholder="Telefone"
+                                    required autofocus>
                             </div>
 
                             <div class="form-label-group">
-                                <input type="text" id="tel" class="form-control text-dark" placeholder="Telefone"
-                                     autofocus>
+                                <input type="text" id="inputEmail" class="form-control text-dark" placeholder="Email"
+                                    required autofocus>
                             </div>
 
                             <div class="form-label-group">
-                                <input type="text" id="email" class="form-control text-dark" placeholder="Email"
-                                     autofocus>
-                            </div>
-
-                            <!-- <div class="form-label-group">
                                 <input type="text" id="inputEmail" class="form-control text-dark" placeholder="Facebook"
-                                     autofocus>
+                                    required autofocus>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="text" id="inputEmail" class="form-control text-dark"
-                                    placeholder="Instagram"  autofocus>
+                                    placeholder="Instagram" required autofocus>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="text" id="inputEmail" class="form-control text-dark" placeholder="Twitter"
-                                     autofocus>
-                            </div> -->
+                                    required autofocus>
+                            </div>
 
                             <hr class="my-4">
 
-                            <!-- <div class="form-label-group">
-                                <input type="file" id="inputPhoto" class="form-control inputphoto text-dark"  autofocus>
+                            <div class="form-label-group">
+                                <input type="file" id="inputPhoto" class="form-control inputphoto text-dark" required autofocus>
                                 <label for="inputPhoto" class="form-control text-center">Adicionar Foto de Perfil</label>
                             </div>
 
                             <div class="form-label-group">
-                                <input type="file" id="inputBanner" class="form-control inputphoto text-dark"  autofocus>
+                                <input type="file" id="inputBanner" class="form-control inputphoto text-dark" required autofocus>
                                 <label for="inputPhoto" class="form-control text-center">Adicionar Foto de Capa</label>
-                            </div> -->
+                            </div>
 
 
 
@@ -111,83 +101,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        var form = document.querySelector('form')
-        form.addEventListener('submit', function(e) {
-            e.preventDefault()
-            const form_data = new FormData()
-
-            var nome = document.getElementById("nome").value
-            var endereco = document.getElementById("endereco").value
-            var emailp = document.getElementById("email").value
-            var tel = document.getElementById("tel").value
-            var complemento = document.getElementById("complemento").value
-
-            // const inputPhoto = document.getElementById("inputPhoto")
-
-            // form_data.append("file", inputPhoto.files[0])
-            
-            // const data = Array.from(form_data)
-            // const file = data[0][1]
-            
-            
-            // console.log(Array.from(form_data))
-            // console.log(data[0][1])
-            // for (var key of form_data) {
-            //     console.log(key);
-            // }
-
-            // console.log(file)
-            // console.log(inputPhoto.files)
-            fetch(`http://localhost:3333/updateAdm`, {
-                method: "PUT",
-                headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
-                
-                body: JSON.stringify({                    
-                    name: nome,
-                    street:endereco,
-                    email:emailp,
-                    phone:tel,
-                    complement: complemento, 
-                    imageLocation: "perfil"              
-                })                
-            })
-            .then((resposta) => {
-                resposta.json().then((dados) => {
-                   // if(!dados.user){                      
-                        //return error.textContent = dados
-                    //}
-                    //var { name, phone, email, password, street, numberHouse } = dados.user;          
-                        //console.log(dados)
-                        //localStorage.setItem("token",dados.token)
-                        window.location='brecho-profile.html'
-                })
-            })            
-        })
-
-
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            
-
-            fetch(`http://localhost:3333/loadAdm`, {
-                method: "GET",
-                headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') }
-            })
-                .then((resposta) => {
-                    resposta.json().then((dados) => {
-                        if (dados.message) {
-                            return window.location = '404.html'
-                        }
-                        var { name, phone, email, password, street, numberHouse, complement } = dados;
-                        nome.textContent = name
-
-                    })
-                })
-        })
-    </script>
 
 </body>
 

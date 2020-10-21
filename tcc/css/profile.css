@@ -538,13 +538,6 @@ b.max-bold {
     color: black;
 }
 
-.bgbtns{
-    background: #888888;
-}
-
-.btns{
-    background: #888888;
-}
 
 @media (max-width: 510px) 
 {
@@ -556,14 +549,14 @@ b.max-bold {
 .btn01{
     font-size: 25px;
     text-decoration: none !important;
-    color: #ccc;
+    color: #ccc !important;
     transition: 0.3s;
 }
 
 .btn02{
     font-size: 25px;
     text-decoration: none !important;
-    color: #ccc;
+    color: #ccc !important;
     transition: 0.3s;
 }
 .btn03{
@@ -575,12 +568,12 @@ b.max-bold {
 
  .btn01:hover {
     text-decoration: none;
-    color: #fff;
+    color: #fff !important;
     transition: 0.3s;
 }
 .btn02:hover {
     text-decoration: none;
-    color: #fff;
+    color: #fff !important;
     transition: 0.3s;
 }
 .btn03:hover {

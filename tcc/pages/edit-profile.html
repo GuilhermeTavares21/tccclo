@@ -36,7 +36,7 @@
                             <img src="../images/logo.png" class="" height="50" alt="Logo Clo">
                         </div>
                         <p class="subtitle text-center text-monospace font">Editar Perfil Pessoal</p>
-                        <form class="form-signin">
+                        <form class="form-signin" method="POST" enctype="multipart/form-data">
                             <div class="form-label-group">
                                 <input type="text" id="nome" class="form-control text-dark" placeholder="Nome Completo"
                                     required autofocus>
@@ -78,42 +78,48 @@
     </div>
 
     <script>
-
-        // console.log(password)
-
-        // var usuario = document.querySelector('.usuario')
-        // var nome = document.querySelector(".nome")
-        // var telefone = document.querySelector(".telefone")
-        // var emailUser = document.querySelector(".email")	
-        // console.log(password.value)
+        // var inputPhoto = document.getElementById("inputPhoto")
         var form = document.querySelector('form')
         form.addEventListener('submit', function(e) {
             e.preventDefault()
             console.log('a')
+            const form_data = new FormData()
+
             var nome = document.getElementById("nome").value
             var endereco = document.getElementById("endereco").value
             var emailp = document.getElementById("email").value
             var tel = document.getElementById("tel").value
             var complemento = document.getElementById("complemento").value
-            var inputPhoto = document.getElementById("inputPhoto").files[0]
-            const data = new FormData()
-            data.append("file", inputPhoto)
 
-            console.log(inputPhoto)
+            const inputPhoto = document.getElementById("inputPhoto")
+
+            form_data.append("file", inputPhoto.files[0])
+            
+            const data = Array.from(form_data)
+            const file = data[0][1]
+            
+            
+            console.log(Array.from(form_data))
+            console.log(data[0][1])
+            // for (var key of form_data) {
+            //     console.log(key);
+            // }
+
+            console.log(file.file)
+            // console.log(inputPhoto.files)
             fetch(`http://localhost:3333/updateUser`, {
                 method: "PUT",
                 headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
                 
                 body: JSON.stringify({
+                    data,
                     name: nome,
                     street:endereco,
                     email:emailp,
                     phone:tel,
-                    complement: complemento,
-                    
-                }),
-                file: data
-
+                    complement: complemento, 
+                    imageLocation: "perfil"              
+                })                
             })
             .then((resposta) => {
                 resposta.json().then((dados) => {
@@ -125,8 +131,36 @@
                         //localStorage.setItem("token",dados.token)
                         // window.location='user-profile.html'
                 })
-            })
+            })            
         })
+
+        // inputPhoto.addEventListener('change', function(e) {
+        //     e.preventDefault()
+        //     // console.log('a')
+
+        //     const data = new FormData()
+        //     data.append("file", inputPhoto.files[0])
+
+
+        //     // console.log(req.files)
+        //     // console.log(data)
+        //     // console.log(inputPhoto)
+        //     // console.log(inputPhoto.files[0])
+        //     fetch(`http://localhost:3333/updateUser`, {
+        //         method: "PUT",
+        //         headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
+                
+        //         body: JSON.stringify({
+        //             data
+        //         })
+
+        //     })
+        //     .then((resposta) => {
+        //         resposta.json().then((dados) => {
+                   
+        //         })
+        //     })            
+        // })
 
 
         document.addEventListener("DOMContentLoaded", function () {

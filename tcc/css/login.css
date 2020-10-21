@@ -48,7 +48,7 @@
 }
 
 .criar-conta {
-  text-decoration: none;
+  text-decoration: none !important;
   text-align: center;
   width: 100%;
   margin-top: 10px;
@@ -64,7 +64,7 @@
 
 .criar-conta:hover {
   transition: 0.3s;
-  text-decoration: none;
+  text-decoration: none !important;
   color: #000;
 
 
@@ -205,12 +205,14 @@
 
 .btn-login {
   background: #fff;
+  text-decoration: none !important;
   color: #000;
   border: 2px solid #000;
 }
 
 .btn-login:hover {
   background: #000;
+  text-decoration: none !important;
   color: #fff;
   border: 2px solid #000;
 }

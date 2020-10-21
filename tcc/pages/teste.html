@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="form-label-group">
+        <input type="file" id="inputPhoto" class="form-control inputphoto text-dark" autofocus>
+        <label for="inputPhoto" class="form-control text-center">Adicionar Foto de Perfil</label>
+    </div>
+    <script>
+        var inputPhoto = document.getElementById('inputPhoto')
+
+        inputPhoto.addEventListener('change', function (e) {
+            e.preventDefault()
+            // console.log('a')
+
+            const data = new FormData()
+            data.append("file", inputPhoto.files[0])
+
+
+            // console.log(req.files)
+            console.log(data)
+            // console.log(inputPhoto)
+            console.log(inputPhoto.files[0])
+            fetch(`http://localhost:3333/updateUser`, {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
+
+                body: JSON.stringify({
+                    data
+                })
+
+            })
+                .then((resposta) => {
+                    resposta.json().then((dados) => {
+
+                    })
+                })
+        })
+        document.addEventListener("DOMContentLoaded", function () {
+
+
+            fetch(`http://localhost:3333/loadUser`, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') }
+            })
+                .then((resposta) => {
+                    resposta.json().then((dados) => {
+                        if (dados.message) {
+                            return window.location = '404.html'
+                        }
+                        var { name, phone, email, password, street, numberHouse, complement } = dados;
+                        // nome.textContent = name
+
+                    })
+                })
+        })
+    </script>
+</body>
+
+</html>

@@ -36,7 +36,7 @@
 	<div class="container-fluid bgbtns">
 		<div class="row btns px-5">
 			<a class="btn02" href="../index.html"><i class="fas fa-arrow-left"></i></a>
-			<a class="btn01 ml-auto" href="../pages/edit-brecho.html"><i class="fas  fa-cog"></i></a>
+			<a class="btn01 ml-auto" href="../pages/edit-brecho.html" id="alterarDados"><i class="fas  fa-cog"></i></a>
 		</div>
 	</div>
 
@@ -54,7 +54,8 @@
 								<i class="icon fas fa-map-marker-alt"></i>
 								<div class="right-area">
 									<h5>Endereço:</h5>
-									<h6><span id="rua"></span>, <span id="numero"></span></h6>
+									<h6><span id="rua"></span>, <span id="numero"></span>, <span
+											id="complemento"></span></h6>
 								</div>
 							</div>
 						</div>
@@ -96,19 +97,13 @@
 						<h2 id="nome"><b></b></h2>
 						<div class="star-rating2">
 							<ul class="list-inline">
-								<li class="list-inline-item"><i class="fa fa-star"></i></li>
-								<li class="list-inline-item"><i class="fa fa-star"></i></li>
-								<li class="list-inline-item"><i class="fa fa-star"></i></li>
-								<li class="list-inline-item"><i class="fa fa-star-half-o"></i></li>
-								<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+								<li class="list-inline-item"><i class="fa fa-star"></i> <span>Média de avalicação:
+									</span> <span id="MediaAvaliacao"></span></li>
 							</ul>
 						</div>
-						<ul class="information margin-tb-30">
-							<li class="text-justify"><b>SOBRE : </b>Lorem ipsum dolor sit amet consectetur adipisicing
-								elit. Provident qui quam adipisci id omnis reprehenderit. Officiis nostrum at
-								consequuntur quisquam aperiam porro voluptas excepturi adipisci. Error reprehenderit
-								quam porro quo.</li>
-						</ul>
+						<div class="information margin-tb-30">
+							<div class="text-justify"><b>SOBRE: </b><span id="descricao"></span></div>
+						</div>
 						<!-- <ul class="social-icons">
 							<li><a href="#"><i class="fab fa-facebook"></i></a></li>
 							<li><a href="#"><i class="fab fa-instagram"></i></a></li>
@@ -150,7 +145,7 @@
 
 	<!-- botao adicionar  -->
 
-	<div class="container-fluid bg-light mt-5">
+	<div class="container-fluid bg-light mt-5" id="addProduto">
 		<div class="row px-5">
 			<a class="btn03 mx-auto" href="../pages/add-product.html"><i class="fas  fa-plus"></i></a>
 		</div>
@@ -323,6 +318,18 @@
 	<!-- fim dos produtos  -->
 
 
+	<div> Deixe sua avalização</div>
+	<div class="">
+		<input type="text" class="form-control" id="ValorAvaliacao" placeholder="Nota de 0 a 10">
+		<input type="text" class="form-control" id="ComentarioAvaliacao" placeholder="Deixe seu comentário">
+	</div>
+	<button class="btn btn-secondary" id="avaliar" type="button">
+		avaliar
+		<!-- <i class="fa fa-search"></i> -->
+	</button>
+	<div class="avaliações">
+
+	</div>
 	<!-- Footer -->
 	<footer class="page-footer footer font-small blue pt-4">
 		<!-- Footer Links -->
@@ -414,7 +421,7 @@
 		crossorigin="anonymous"></script>
 
 	<script>
-		var form = document.querySelector('form')		
+		var form = document.querySelector('form')
 		var error = document.getElementById("error")
 
 		var nome = document.getElementById("nome")
@@ -424,35 +431,80 @@
 		var numero = document.getElementById('numero')
 		var complemento = document.getElementById('complemento')
 		var imagePeril = document.getElementById('imagePeril')
+		var descricao = document.getElementById('descricao')
+		var MediaAvaliacao = document.getElementById('MediaAvaliacao')
+		var ValorAvaliacao = document.getElementById('ValorAvaliacao')
+		var ComentarioAvaliacao = document.getElementById('ComentarioAvaliacao')
+		var avaliar = document.getElementById('avaliar')
 
-		document.addEventListener("DOMContentLoaded", function() {
+		var alterarDados = document.getElementById('alterarDados')
+		var addProduto = document.getElementById('addProduto')
+		// console.log(descricao)
+		document.addEventListener("DOMContentLoaded", function () {
 
 			fetch(`http://localhost:3333/loadAdm`, {
 				method: "get",
 				headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') }
-			})
-				.then((resposta) => {
-					resposta.json().then((dados) => {
-						if(!dados){
-							return window.location='404.html'
-						}
-						if (dados.message) {
-							return window.location = '404.html'
-						}
-						console.log(dados)
-						var { name, phone, email, password, street, numberHouse, complement, image } = dados;
-						nome.textContent = name
-						telephone.textContent = phone
-						txtEmail.textContent = email
-						rua.textContent = street
-						numero.textContent = numberHouse
-						complemento.textContent = complement,
-						imagePeril.src = image.location
 
-						console.log(image.location)
-					})
+			})
+			.then((resposta) => {
+				resposta.json().then((dados) => {
+					// if(!dados){
+					// 	addProduto.style.visibility = 'hidden'
+					// 	alterarDados.style.visibility = 'hidden'
+					// }
+					// if (dados.message) {
+					// 	return window.location = '404.html'
+					// }
+					// console.log(dados)
+					var { name, phone, email, password, street, numberHouse, complement, image, description, mediaEvaluation, evaluation } = dados;
+					console.log(evaluation)
+					nome.textContent = name
+					telephone.textContent = phone
+					txtEmail.textContent = email
+					rua.textContent = street
+					numero.textContent = numberHouse,
+					complemento.textContent = complement
+					descricao.textContent = description,
+					MediaAvaliacao.textContent = mediaEvaluation
+
+					if (image) {
+						imageUser.src = image.location
+					}
+					var avalicações = ""
+
+					for (let i = 0; i < evaluation.length; i++) {
+						//sacola[i] = JSON.parse
+						avalicações += "<div id='valorAvalido'>"+evaluation[i].avaliate+"</div>"+ 
+						"<div id='comentarioAvalido'>"+evaluation[i].comment+"</div>"
+					}
+					$('.avaliações').html(avalicações)
+
 				})
+			})
 		})
+
+
+
+		// document.addEventListener("DOMContentLoaded", function() {
+
+		// 	fetch(`http://localhost:3333/evaluationAdm/5f901eef46df5f07247b030f`, {
+		// 		method: "POST",
+		// 		headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
+		// 		body: JSON.stringify({                    
+		// 			avaliate: ValorAvaliacao,
+		// 			comment: ComentarioAvaliacao
+
+        //         })             
+		// 	})
+		// 		.then((resposta) => {
+		// 			resposta.json().then((dados) => {						
+		// 				var { avaliate, comment } = dados;
+
+
+		// 			})
+		// 		})
+		// 	})
 	</script>
 </body>
 

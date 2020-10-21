@@ -28,6 +28,8 @@
 .hdr h1,h2,h3,h4,h5,h6,p,a,ul,span,li,img,input,button {
     margin: 0;
     padding: 0;
+    font-size: 18px;
+    letter-spacing: 1px;
 }
 
 .hdr h1,h2,h3,h4,h5,h6 {
@@ -52,7 +54,7 @@
 }
 
 .hdr h2 {
-    font-size: 2.2em;
+    font-size: 2.7em;
     line-height: 1.1;
 }
 
@@ -246,7 +248,8 @@ b.max-bold {
     position: relative;
     background-size: cover;
     z-index: 1;
-    background: #aaaaaa;
+    background-image: url(../images/userBanner.jpg);
+    opacity: 90%;
 }
 
 .intro-section2:before {
@@ -310,7 +313,7 @@ b.max-bold {
 
 .star-rating ul>li{
     color: #ffb11f;
-    font-size: 2em;
+    font-size: 3em;
 }
 
 .star-rating2 ul>li{
